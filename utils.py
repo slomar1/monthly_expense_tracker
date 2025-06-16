@@ -1,25 +1,32 @@
 import os
+import csv
 
 
-# Check if CSV file exists.
+# Check if CSV file exists at the given path
+# Arg: the file path (str)
+# Returns: bool, True if file exists, False if not
 def check_for_csv(path):
 
     return os.path.exists(path)
 
 
 # Create CSV file if it doesn't exist
-def create_csv(path):
-    
+# If file is created, adds header to file
+# Args: path for new file (str). Header (list) to write if provided
+def create_csv(path, header, ):
+
     if not check_for_csv(path):
-        with open(path, "w") as csvfile:
-            pass  # File created, but no data added yet.
-        # Instead of passing, I want it to add data automatically using it from main file.
-        # First add the header, and then start with month 0, then be able to add new data month by month.
-        # May need another function for this.
+        with open(path, "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(header)
 
 
-# Get a valid number from the user
+
+# Prompt user for valid numberical input
+# Arg: prompt (str) to display to user
+# Returns: float, calid number ffrom user
 def get_number(prompt):
+
     while True:
         try:
             return float(input(prompt))
