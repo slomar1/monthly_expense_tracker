@@ -6,35 +6,32 @@ I finally fixed the import issue.
 Here's a new roadmap of the things I need to do:
 
 
-Phase 1: Core Functionality
+Phase 1: Core Functionality (✅)
 
     Initialize CSV with Header and Month 0 Data
         Modify create_csv to write header (✅ in session 1)
-        Add "Month 0" row with initial savings data when creating new file
-        Ensure existing files aren't overwritten when adding header
+        Add "Month 0" row with initial savings data when creating new file (✅ in session 2)
 
     Monthly Data Collection
-        Implement function to collect monthly income/expense data
-        Calculate monthly savings: previous savings + income - expenses
-        Validate inputs (non-negative numbers)
+        Implement function to collect monthly income/expense data (✅ in session 2)
+        Calculate monthly savings: previous savings + income - expenses (✅ in session 2)
 
     CSV Appending System
-        Create function to append new monthly data to CSV
-        Automatically increment month number based on existing data
-        Handle first month after initial savings (Month 1)
+        Create function to append new monthly data to CSV (✅ in session 2)
+        Automatically increment month number based on existing data (✅ in session 2)
+        Handle first month after initial savings (Month 1) (✅ in session 2)
+        Add text to guide the user (✅ in session 2)
 
 
 Phase 2: Time Management
 
     Date-Based Tracking
-        Implement actual month/year tracking instead of incrementing numbers
-        Use datetime to auto-detect current month/year
-        Allow manual date entry for past months
+        Implement actual month/year tracking
+        Allow manual date entry for month and year
 
     Multi-Year File Management
         Auto-create new CSV files when year changes
         Carry over final savings from previous year
-        Implement year selection menu
 
 
 Phase 3: Data Analysis
@@ -42,6 +39,7 @@ Phase 3: Data Analysis
     CSV Reading & Basic Stats
 
         Implement pandas CSV reading
+        Add ability fo add from last month instead of restarting with new file
         Calculate: total income, total expenses, net savings change
         Show monthly averages
 
