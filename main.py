@@ -1,12 +1,13 @@
 """
 Monthly Expense Tracker - Main Program
+Current version: 0.7
 Roadmap: See README.md for feature implementation plan
 """
 
 
 # Imports
 import csv
-from utils import create_csv, get_number, ask_to_continue
+from utils import create_csv, get_number, ask_to_continue, get_month, get_year
 
 
 # Constants
@@ -20,14 +21,17 @@ def initialize_tracker():
     # Get initial savings
     savings = get_number("\nHow much do you have saved up?: ")
 
-    # Creat initial Month 0 data (only savings)
-    initial_data = [0, 0, 0, 0, savings]
+    # Get date
+    start_year = get_year("\nPlease type in the year you are starting count from: ")
+    start_month = get_month("What month of the  year will you be stating off with? ")
+    initial_date = f"{start_year}-{start_month}"
+
+    # Creat initial Month 0 data (only savings and initial date)
+    initial_row = [initial_date, 0, 0, 0, savings]
 
     # Create CSV with header and initial data
-    create_csv(csv_path, csv_header, initial_data)
+    create_csv(csv_path, csv_header, initial_row)
 
-    # start tracking months form 1
-    month_count = 1
 
     # Add data to csv per month
     while True:
@@ -49,12 +53,13 @@ def initialize_tracker():
         print(f"\nTaking your net balance into account, your total savings now lie at ${savings:.2f}. ")
 
         # create new row for current month
-        current_month = [month_count, month_made, month_spent, month_net, savings]
+        current_date = f"{start_year}-{start_month}"
+        current_row = [current_date, month_made, month_spent, month_net, savings]
 
         # Append to csv
         with open(csv_path, "a", newline="") as month_file:
             writer = csv.writer(month_file)
-            writer.writerow(current_month)
+            writer.writerow(current_row)
 
         # Ask user to continue to next month or break
         if not ask_to_continue("\nWould you like to log data for another month or stop? y/n: "):
@@ -64,7 +69,10 @@ def initialize_tracker():
         
         # Increment for next month if user wants
         pass
-        month_count += 1
+        start_month += 1
+        if start_month > 12:
+            start_month = 1
+            start_year  += 1
 
     
 
