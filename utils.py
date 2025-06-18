@@ -71,11 +71,10 @@ def check_for_csv(path):
 # Create CSV file if it doesn't exist
 # If file is created, adds header to file
 # Args: path for new file (str). Header to write (list)
-def create_csv(path, header, init_data):
+def create_csv(path, header):
 
     if not check_for_csv(path):
         with open(path, "w", newline="") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(header)
-            writer.writerow(init_data)
 

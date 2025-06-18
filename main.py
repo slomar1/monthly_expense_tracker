@@ -1,6 +1,6 @@
 """
 Monthly Expense Tracker - Main Program
-Current version: 0.7
+Current version: 0.7.1
 Roadmap: See README.md for feature implementation plan
 """
 
@@ -30,7 +30,7 @@ def initialize_tracker():
     initial_row = [initial_date, 0, 0, 0, savings]
 
     # Create CSV with header and initial data
-    create_csv(csv_path, csv_header, initial_row)
+    create_csv(csv_path, csv_header)
 
 
     # Add data to csv per month
