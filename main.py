@@ -1,13 +1,14 @@
 """
 Monthly Expense Tracker - Main Program
-Current version: 0.7.1
-Roadmap: See README.md for feature implementation plan
+Current version: 0.8
+Roadmap: See readme.md for feature implementation plan
 """
 
 
 # Imports
 import csv
-from utils import create_csv, get_number, ask_to_continue, get_month, get_year
+import os
+from utils import create_csv, get_number, ask_to_continue, get_month, get_year, get_last_row_data
 
 
 # Constants
@@ -18,19 +19,30 @@ csv_header = ["Month", "Income", "Spent", "Net", "Savings"]\
 # Initialize csv file and get starting savings
 def initialize_tracker():
 
-    # Get initial savings
-    savings = get_number("\nHow much do you have saved up?: ")
+     # Check if CSV exists and has data
+    if os.path.exists(csv_path):
+        last_date, last_savings = get_last_row_data(csv_path)
+        print(f"\nResuming from last saved month: {last_date}")
 
-    # Get date
-    start_year = get_year("\nPlease type in the year you are starting count from: ")
-    start_month = get_month("What month of the  year will you be stating off with? ")
-    initial_date = f"{start_year}-{start_month}"
+        # Extract year and month from last date
+        start_year, start_month = map(int, last_date.split('-'))
 
-    # Creat initial Month 0 data (only savings and initial date)
-    initial_row = [initial_date, 0, 0, 0, savings]
+        # Calculate next month
+        start_month += 1
+        if start_month > 12:
+            start_month = 1
+            start_year += 1
 
-    # Create CSV with header and initial data
-    create_csv(csv_path, csv_header)
+        savings = last_savings
+
+    else:
+        # New File setup
+        savings = get_number("\nHow much do you have saved up?: ")
+        start_year = get_year("\nPlease type in the year you are starting count from: ")
+        start_month = get_month("What month of the  year will you be stating off with? ")
+
+        # Create CSV with header only
+        create_csv(csv_path, csv_header)
 
 
     # Add data to csv per month
@@ -38,6 +50,7 @@ def initialize_tracker():
 
         # Get monthly data
         month_made = get_number("How much did you make this month?: ")
+        rent = get_number("How much have you spent on housing (rent, utilities, etc.) this month?: ")
         food = get_number("How much have you spent on groceries this month?: ")
         gas = get_number("How much have you spent on transportation (gas, maintenece, public transport, etc.) this month?: ")
         outside = get_number("How much have you spent on lesuire (restaurants, takeout, clothing, etc.) this month?: ")
@@ -45,7 +58,7 @@ def initialize_tracker():
         other = get_number("How much money have you spent miscellaneously (gym, entertainment, grooming, etc.) this month?: ")
 
         # Calculate monthly totals
-        month_spent = food + gas + outside + edu + other
+        month_spent = rent + food + gas + outside + edu + other
         print(f"\nYou have spent ${month_spent:.2f} in total this month. ")
         month_net = month_made - month_spent
         print(f"\nYou have made a net total of ${month_net:.2f} this month. ")
@@ -64,7 +77,7 @@ def initialize_tracker():
         # Ask user to continue to next month or break
         if not ask_to_continue("\nWould you like to log data for another month or stop? y/n: "):
             print("\nThank you for trying my monthly expense tracker. " \
-            "Your data has been logged into the data.csv file within the program. ")
+            "All data saved to csv file within the program.")
             break
         
         # Increment for next month if user wants
@@ -73,9 +86,9 @@ def initialize_tracker():
         if start_month > 12:
             start_month = 1
             start_year  += 1
-
     
 
+# Run main.py
 if __name__ == "__main__":
     print("\nHello. Welcome to my monthly expense tracker, where you will" \
     "be able log your financial data per month")

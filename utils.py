@@ -1,5 +1,6 @@
 import os
 import csv
+import pandas as pd
 
 
 # Prompt user for valid numberical input
@@ -59,22 +60,33 @@ def ask_to_continue(prompt):
         else:
             print("Invalid input. Please type 'y' for yes, 'n' for no: ")
 
-
-# Check if CSV file exists at the given path
-# Arg: the file path (str)
-# Returns: bool, True if file exists, False if not
-def check_for_csv(path):
-
-    return os.path.exists(path)
-
-
+    
 # Create CSV file if it doesn't exist
 # If file is created, adds header to file
 # Args: path for new file (str). Header to write (list)
 def create_csv(path, header):
 
-    if not check_for_csv(path):
-        with open(path, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(header)
+    with open(path, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(header)
 
+
+# Get last row data from CSV with pandas
+# Args: path for new file (str)
+def get_last_row_data(path):
+
+    try:
+        df = pd.read_csv(path)
+
+        # Get last row
+        last_row = df.iloc[-1]
+
+        # Extract date and savings
+        last_date = last_row["Month"]
+        last_savings = last_row ["Savings"]
+
+        return last_date, last_savings
+    
+    except Exception as e:
+        print(f"Error reading data: {e}")
+        return None, None

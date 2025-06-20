@@ -1,10 +1,9 @@
 This is  reworked, expanded version of my monthly expense tracker.
 This one actually uses some data tools.
+Anyone can contribute.
 Forgive the embarrassing code, I am still just learining.
 
-I finally fixed the import issue.
-Here's a new roadmap of the things I need to do:
-
+Here's a roadmap of the things I need to do:
 
 Phase 1: Core Functionality (✅)
 
@@ -34,12 +33,13 @@ Phase 2: Time Management (✅)
 
 Phase 3: Data Analysis
 
-    CSV Reading & Basic Stats
-        Add ability to add from last month instead of restarting with new file
-        Implement pandas CSV reading
-        Show monthly averages
+    CSV Reading & Basic Stats (✅)
+        Add ability to add from last month instead of restarting with new file (✅ in session 4)
+        Implement pandas CSV reading (✅ in session 4)
 
     Data Visualization
         Create savings trend line graph
         Generate income vs expense bar charts
         Add monthly comparison visuals
+        Expense Category Breakdown Pie Chart
+        
